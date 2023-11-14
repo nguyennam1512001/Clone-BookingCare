@@ -1,6 +1,6 @@
 const CRUDService = require('../services/CRUDService')
 
-const getCRUD =(req,res) =>{
+const getCRUDPage =(req,res) =>{
     res.render('crud.ejs')
 }
 
@@ -10,4 +10,10 @@ const postCRUD = async (req,res) =>{
     return res.send(message)
 }
 
-module.exports = {getCRUD, postCRUD}
+const getCRUD = async(req, res)=>{
+    let data = await CRUDService.getAllUser()
+
+    return res.render('displayCRUD.ejs',{data})
+}
+
+module.exports = {getCRUDPage, postCRUD, getCRUD}

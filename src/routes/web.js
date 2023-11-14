@@ -5,8 +5,9 @@ const CRUDController = require('../controllers/CRUDController')
 let router = express.Router()
 let initWebRouter = (app)=>{
     router.get('/', homePageController.getHomePage)
-    router.get('/crud', CRUDController.getCRUD)
+    router.get('/crud', CRUDController.getCRUDPage)
     router.post('/post-crud', CRUDController.postCRUD)
+    router.get('/get-crud', CRUDController.getCRUD)
 
     return app.use('/',router)
 }
