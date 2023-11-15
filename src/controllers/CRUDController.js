@@ -4,7 +4,7 @@ const getCRUDPage =(req,res) =>{
     return res.render('crud.ejs')
 }
 const getUpdateUserPage = async (req,res)=>{
-    let userId = req.params.id
+    let userId = req.query.id
     if (userId) {
         let user = await CRUDService.getUserById(userId)
         return res.render('updateUsePage.ejs',{user})
@@ -32,4 +32,14 @@ const putCRUD = async(req, res)=>{
     return res.render('displayCRUD.ejs', {data: allUser})
 }
 
-module.exports = {getCRUDPage, postCRUD, getCRUD, getUpdateUserPage, putCRUD}
+const deleteCRUD = async (req, res)=>{
+    let id = req.query.id
+    if(id){
+         await CRUDService.deleteUser(id)
+        return res.send('oke delete')
+    }else{
+        return res.send('error delete')
+    }
+}
+
+module.exports = {getCRUDPage, postCRUD, getCRUD, getUpdateUserPage, putCRUD, deleteCRUD}

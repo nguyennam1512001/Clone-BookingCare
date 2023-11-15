@@ -26,8 +26,8 @@
                   <td><%= item.lastName%></td>
                   <td><%= item.address%></td>
                   <td><%= item.gender === 1 ? 'male': 'female'%></td>
-                  <td><a href="/update_user/<%= item.id%>">edit</a></td>
-                  <td><a href="/delete_user">delete</a></td>
+                  <td><a href="/update_user?id=<%= item.id%>">edit</a></td>
+                  <td><a href="/delete_crud?id=<%= item.id%>">delete</a></td>
                 </tr>
              <% }); %> 
          

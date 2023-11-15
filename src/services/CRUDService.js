@@ -70,6 +70,21 @@ let updateUser =(data)=>{
 }
 
 
+let deleteUser =(id)=>{
+    return new Promise( async(resolve, reject)=>{
+        try {
+            let user = await db.User.findOne({ where: { id } });
+            if (user) {
+                await user.destroy()
+            }
+            resolve()
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+
 let hashUserPassword = (password)=>{
     return new Promise(async(resolve, reject)=>{
         try {
@@ -82,4 +97,4 @@ let hashUserPassword = (password)=>{
 }
 
 
-module.exports = {createNewUser, getAllUser, getUserById, updateUser}
+module.exports = {createNewUser, getAllUser, getUserById, updateUser, deleteUser}

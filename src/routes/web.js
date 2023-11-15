@@ -6,11 +6,12 @@ let router = express.Router()
 let initWebRouter = (app)=>{
     router.get('/', homePageController.getHomePage)
     router.get('/crud', CRUDController.getCRUDPage)
-    router.get('/update_user/:id', CRUDController.getUpdateUserPage)
+    router.get('/update_user', CRUDController.getUpdateUserPage)
     
     router.post('/post-crud', CRUDController.postCRUD)
     router.get('/get-crud', CRUDController.getCRUD)
     router.post('/put_crud', CRUDController.putCRUD)
+    router.get('/delete_crud', CRUDController.deleteCRUD)
 
     return app.use('/',router)
 }
