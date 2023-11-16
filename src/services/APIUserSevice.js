@@ -6,7 +6,6 @@ let handleUserLogin = async(email, password)=>{
             let userData = {}
             let isExit = await checkUserEmail(email)
             if(isExit){
-
                 let user = await db.User.findOne({
                     where: {email: email},
                     attributes:['email', 'roleId', 'password'],
@@ -27,7 +26,6 @@ let handleUserLogin = async(email, password)=>{
                     userData.errCode = 2
                     userData.errMessage = 'user not found'
                 }
-
             } else{
                 userData.errCode = 1
                 userData.errMessage = 'Email is incorrect'

@@ -5,8 +5,8 @@ let handleLogin = async(req,res)=>{
     let password = req.body.password
     if(!email || !password){
         return res.status(500).json({
-            errCode: '1',
-            message: 'Missing input parameter'
+            errCode: 1,
+            message: 'Please enter email and password'
         })
     }
     let userData = await APIUserSevice.handleUserLogin(email, password)
