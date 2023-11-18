@@ -17,4 +17,21 @@ let handleLogin = async(req,res)=>{
     })
 }
 
-module.exports = {handleLogin}
+let getUsers = async(req,res)=>{
+    let id = req.body.id; //all, id
+    if(!id){
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: 'Missing require parameter',
+            user: []
+        })
+    }
+    let userData = await APIUserSevice.getUsers(id)
+    return res.status(200).json({
+        errCode: 0,
+        errMessage: 'ok',
+        users: userData
+    })
+}
+
+module.exports = {handleLogin, getUsers}

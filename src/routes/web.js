@@ -1,7 +1,7 @@
 const express = require("express"); //commonjs
 const homePageController = require('../controllers/homePageController')
-const userController = require('../controllers/userController')
 const CRUDController = require('../controllers/CRUDController')
+const userController = require('../controllers/userController')
 
 let router = express.Router()
 let initWebRouter = (app)=>{
@@ -16,6 +16,7 @@ let initWebRouter = (app)=>{
 
     // API ================
     router.post('/api/login', userController.handleLogin)
+    router.get('/api/users', userController.getUsers)
 
     return app.use('/',router)
 }

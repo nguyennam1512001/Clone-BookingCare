@@ -1,5 +1,7 @@
 const db = require('../models/index')
 const bcrypt = require('bcryptjs')
+
+
 let handleUserLogin = async(email, password)=>{
     return new Promise( async(resolve, reject)=>{
         try {
@@ -54,4 +56,30 @@ let checkUserEmail = async(email) =>{
     })
 }
 
-module.exports = {handleUserLogin}
+let getUsers =(userId)=>{
+    return new Promise(async(resolve, reject)=>{
+        try {
+            let userData = ''
+            if(userId === 'all'){
+                userData = await db.User.findAll({
+                    attributes: {exclude : ['password']},
+                })
+
+
+            }
+            if(userId && userId !== 'all'){
+                userData = await db.User.findOne({
+                    where: {id : userId},
+                    attributes: {exclude : ['password']},
+                    raw: true
+                })
+            }
+
+            resolve(userData)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+module.exports = {handleUserLogin, getUsers}
