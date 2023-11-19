@@ -15,8 +15,12 @@ let initWebRouter = (app)=>{
     router.get('/delete_crud', CRUDController.deleteCRUD)
 
     // API ================
-    router.post('/api/login', userController.handleLogin)
-    router.get('/api/users', userController.getUsers)
+        //--User--
+    router.post('/api/login', userController.handleLogin)   // login
+    router.post('/api/create-user', userController.handleCreateUser)       // create
+    router.get('/api/users', userController.handleGetUsers)       // read
+    router.put('/api/edit-user', userController.handleUpdateUser)       // update
+    router.delete('/api/delete-user', userController.handleDeleteUser)       // delete
 
     return app.use('/',router)
 }
