@@ -20,7 +20,7 @@ let initWebRouter = (app)=>{
     router.post('/api/create-user', userController.handleCreateUser)       // create
     router.get('/api/users', userController.handleGetUsers)       // read
     router.put('/api/edit-user', userController.handleUpdateUser)       // update
-    router.delete('/api/delete-user', userController.handleDeleteUser)       // delete
+    router.delete('/api/delete-user/:id', userController.handleDeleteUser)       // delete
 
     return app.use('/',router)
 }

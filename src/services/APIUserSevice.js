@@ -60,22 +60,49 @@ let checkUserEmail = async(email) =>{
 let createNewUser = async (data) => {
     return new Promise(async (resolve, reject) => {
         try {
+            let arr = Object.keys(data);
+            for (let i = 0; i < arr.length; i++) {
+                if(!data[arr[i]] || !data[arr[i]].trim()){
+                    resolve({
+                        errCode: 1,
+                        errMessage: `Please enter your ${arr[i]}`
+                    })
+                    return;
+                } 
+            }
+            
+             
             let check = await checkUserEmail(data.email);
-
             if (check) {
                 resolve({
                     errCode: 1,
                     errMessage: 'This email address is already in use'
                 });
             } else {
+                const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+                if (/\s/.test(data.password)) {
+                    resolve({
+                        errCode: 1,
+                        errMessage: 'Password should not contain spaces.'
+                    });
+                    return; 
+                }
+                if (!passwordRegex.test(data.password.trim())) {
+                    resolve({
+                        errCode: 1,
+                        errMessage: 'Password must be at least 6 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character.'
+                    });
+                    return; 
+                }
+                
                 let hashPasswordFromBcrypt = await hashUserPassword(data.password);
 
                 await db.User.create({
-                    email: data.email,
+                    email: data.email.trim(),
                     password: hashPasswordFromBcrypt,
-                    firstName: data.firstName,
-                    lastName: data.lastName,
-                    address: data.address,
+                    firstName: data.firstName.trim(),
+                    lastName: data.lastName.trim(),
+                    address: data.address.trim(),
                     phoneNumber: data.phoneNumber,
                     gender: data.gender === '1' ? true : false,
                     roleId: data.roleId,
@@ -83,7 +110,7 @@ let createNewUser = async (data) => {
 
                 resolve({
                     errCode: 0,
-                    errMessage: 'ok'
+                    message: 'Added user successfully'
                 });
             }
         } catch (error) {

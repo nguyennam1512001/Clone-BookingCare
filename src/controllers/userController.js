@@ -19,7 +19,7 @@ let handleLogin = async(req,res)=>{
 
 let handleCreateUser = async(req,res)=>{
     let message = await APIUserSevice.createNewUser(req.body)
-    return res.status(500).json(message)
+    return res.status(200).json(message)
 }
 
 let handleGetUsers = async(req,res)=>{
@@ -46,13 +46,13 @@ let handleUpdateUser = async(req,res)=>{
 }
 
 let handleDeleteUser = async(req,res)=>{
-    if(!req.body.id){
+    if(!req.params.id){
         return res.status(200).json({
             errCode: 1,
             errMessage: 'Missing required parameter'
         })
     }
-    let message = await APIUserSevice.deleteUser(req.body.id)
+    let message = await APIUserSevice.deleteUser(req.params.id)
     return res.status(200).json(message)
 }
 module.exports = {handleLogin, handleCreateUser, handleGetUsers, handleUpdateUser, handleDeleteUser}
