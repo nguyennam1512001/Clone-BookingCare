@@ -12,12 +12,14 @@ const app = express()
 const port = process.env.PORT || 3000
 const hostname = process.env.HOST_NAME
 
-app.use(cors({
-  origin: true, // Đặt địa chỉ nguồn của ứng dụng React của bạn
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true, // Cho phép gửi cookie và các header khác khi yêu cầu từ client
-  optionsSuccessStatus: 204, // Mã trạng thái thành công cho preflight requests
-}));
+app.use(function (req, res, next){
+  res.setHeader(`Access-Control-Allow-Origin`, process.env.URL_REACT);
+  res.setHeader(`Access-Control-Allow-Methods`, `GET,PUT,POST,DELETE`);
+  res.setHeader(`Access-Control-Allow-Headers`, `Content-Type,Content-Length, Authorization, Accept,X-Requested-With`);
+  res.setHeader(`Access-Control-Allow-Credentials`, true)
+  next();
+})
+
 // config req.body
 app.use(bodyParser.json()); // for json
 app.use(bodyParser.urlencoded({ extended: true })); // for form data

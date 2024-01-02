@@ -153,30 +153,32 @@ let updateUser = (data) => {
                     errCode: 2,
                     errMessage: "Missing required parameter"
                 });
+            } else{
+                let user = await db.User.findOne({ where: { id: data.id } });
+    
+                if (user) {
+                    // Create an instance of the model
+                    const userModelInstance = db.User.build(user, { isNewRecord: false });
+    
+                    userModelInstance.firstName = data.firstName;
+                    userModelInstance.lastName = data.lastName;
+                    userModelInstance.address = data.address;
+                    userModelInstance.gender = data.gender === 'male' ? 1 : 0;
+    
+                    await userModelInstance.save();
+    
+                    resolve({
+                        errCode: 0,
+                        message: 'Update user success!'
+                    });
+                } else {
+                    resolve({
+                        errCode: 1,
+                        errMessage: 'User does not exist'
+                    });
+                }
             }
 
-            let user = await db.User.findOne({ where: { id: data.id } });
-
-            if (user) {
-                // Create an instance of the model
-                const userModelInstance = db.User.build(user, { isNewRecord: false });
-
-                userModelInstance.firstName = data.firstName;
-                userModelInstance.lastName = data.lastName;
-                userModelInstance.address = data.address;
-                userModelInstance.gender = data.gender === 'male' ? 1 : 0;
-
-                await userModelInstance.save();
-
-                resolve({
-                    message: 'Update user success!'
-                });
-            } else {
-                resolve({
-                    errCode: 1,
-                    errMessage: 'User does not exist'
-                });
-            }
         } catch (e) {
             reject(e);
         }
@@ -219,4 +221,27 @@ let hashUserPassword = (password)=>{
     })
 }
 
-module.exports = {handleUserLogin, createNewUser, getUsers, deleteUser, updateUser}
+let getAllCodeService = (typeInput)=>{
+    return new Promise(async(resolve, reject)=>{
+        try {
+            if(!typeInput){
+                resolve({
+                    errCode: 1,
+                    errMessage: "Missing required parameter"
+                })
+            }else{
+                let res = {}
+                let allcode = await db.Allcode.findAll({
+                    where: {type: typeInput}
+                });
+                res.errCode = 0;
+                res.data = allcode;
+                resolve(res);
+            }
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+module.exports = {handleUserLogin, createNewUser, getUsers, deleteUser, updateUser, getAllCodeService}
