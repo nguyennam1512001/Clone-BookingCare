@@ -70,8 +70,7 @@ let createNewUser = async (data) => {
                     return;
                 } 
             }
-            
-             
+
             let check = await checkUserEmail(data.email);
             if (check) {
                 resolve({
@@ -204,7 +203,7 @@ let deleteUser = (id)=>{
             await db.User.destroy({where: {id:id}})
             resolve({
                 errCode: 0,
-                message: 'delete success'
+                message: 'delete user success'
             })
         } catch (e) {
             reject(e)

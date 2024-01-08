@@ -16,11 +16,16 @@ let handleLogin = async(req,res)=>{
         user: userData.user ? userData.user: {}
     })
 }
-
-let handleCreateUser = async(req,res)=>{
-    let message = await APIUserSevice.createNewUser(req.body)
-    return res.status(200).json(message)
-}
+let handleCreateUser = async (req, res) => {
+    try {
+      let message = await APIUserSevice.createNewUser(req.body);
+      return res.status(200).json(message);
+    } catch (error) {
+      console.error("Error creating new user:", error);
+      return res.status(500).json({ errorCode: 1, errorMessage: "Internal Server Error" });
+    }
+  };
+  
 
 let handleGetUsers = async(req,res)=>{
     let id = req.query.id; //all, id
