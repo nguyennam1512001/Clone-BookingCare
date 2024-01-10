@@ -148,7 +148,7 @@ let getUsers =(userId)=>{
 let updateUser = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.id) {
+            if (!data.id || !data.gender || !data.positionId || !data.roleId) {
                 resolve({
                     errCode: 2,
                     errMessage: "Missing required parameter"
@@ -159,11 +159,14 @@ let updateUser = (data) => {
                 if (user) {
                     // Create an instance of the model
                     const userModelInstance = db.User.build(user, { isNewRecord: false });
-    
+
                     userModelInstance.firstName = data.firstName;
                     userModelInstance.lastName = data.lastName;
                     userModelInstance.address = data.address;
-                    userModelInstance.gender = data.gender === 'male' ? 1 : 0;
+                    userModelInstance.phoneNumber = data.phoneNumber;
+                    userModelInstance.gender = data.gender;
+                    userModelInstance.positionId = data.positionId;
+                    userModelInstance.roleId = data.roleId;
     
                     await userModelInstance.save();
     
