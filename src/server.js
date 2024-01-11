@@ -21,8 +21,10 @@ app.use(function (req, res, next){
 })
 
 // config req.body
-app.use(bodyParser.json()); // for json
-app.use(bodyParser.urlencoded({ extended: true })); // for form data
+// app.use(bodyParser.json()); // for json
+// app.use(bodyParser.urlencoded({ extended: true })); // for form data
+app.use(bodyParser.json({limit:'50mb'})); // for json
+app.use(bodyParser.urlencoded({ limit:'50mb', extended: true })); // for form data
 //config template engine
 configViewEngine(app)
 

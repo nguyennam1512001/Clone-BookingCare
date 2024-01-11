@@ -106,6 +106,7 @@ let createNewUser = async (data) => {
                     gender: data.gender,
                     positionId: data.positionId,
                     roleId: data.roleId,
+                    image: data.avatar,
                 });
 
                 resolve({
@@ -167,6 +168,7 @@ let updateUser = (data) => {
                     userModelInstance.gender = data.gender;
                     userModelInstance.positionId = data.positionId;
                     userModelInstance.roleId = data.roleId;
+                    userModelInstance.image = data.avatar;
     
                     await userModelInstance.save();
     
