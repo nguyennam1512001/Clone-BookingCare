@@ -2,6 +2,7 @@ const express = require("express"); //commonjs
 const homePageController = require('../controllers/homePageController')
 const CRUDController = require('../controllers/CRUDController')
 const userController = require('../controllers/userController')
+const doctorController = require('../controllers/doctorController')
 
 let router = express.Router()
 let initWebRouter = (app)=>{
@@ -21,6 +22,8 @@ let initWebRouter = (app)=>{
     router.get('/api/users', userController.handleGetUsers)       // read
     router.put('/api/edit-user', userController.handleUpdateUser)       // update
     router.delete('/api/delete-user/:id', userController.handleDeleteUser)       // delete
+        // --Doctor--
+    router.get('/api/doctors', doctorController.handleGetDoctors)
 
     router.get('/api/allcode', userController.getAllCode)
     return app.use('/',router)

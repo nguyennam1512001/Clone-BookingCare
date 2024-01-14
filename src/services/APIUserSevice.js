@@ -127,9 +127,13 @@ let getUsers =(userId)=>{
             if(userId === 'all'){
                 userData = await db.User.findAll({
                     attributes: {exclude : ['password']},
+                    include:[                            //quan hệ
+                        {model: db.Allcode, as:'positionData', attributes: ['valueEn', 'valueVi']},
+                        {model: db.Allcode, as:'genderData', attributes: ['valueEn', 'valueVi']}
+                    ],
+                    raw: true,
+                    nest: true
                 })
-
-
             }
             if(userId && userId !== 'all'){
                 userData = await db.User.findOne({
@@ -190,8 +194,6 @@ let updateUser = (data) => {
     });
 };
 
-
-
 let deleteUser = (id)=>{
     return new Promise(async(resolve, reject)=>{
         try {
@@ -249,4 +251,5 @@ let getAllCodeService = (typeInput)=>{
     })
 }
 
-module.exports = {handleUserLogin, createNewUser, getUsers, deleteUser, updateUser, getAllCodeService}
+
+module.exports = {handleUserLogin, createNewUser, getUsers, deleteUser, updateUser, getAllCodeService,}
