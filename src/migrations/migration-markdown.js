@@ -12,8 +12,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-
-    clinicId: DataTypes.INTEGER,
         contentHTML: {
             allowNull: false,
             type: Sequelize.TEXT('long')
