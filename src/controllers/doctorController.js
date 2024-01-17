@@ -44,5 +44,24 @@ let handlePostInforDoctor = async (req, res)=>{
     }
 }
 
+let handleGetDetailDoctor= async(req, res)=>{
+    try {
+        if(!req.query.id){
+            return res.status(200).json({
+                errCode: -1,
+                errMessage: 'Missing parameter'
+            })
+        }
+        let response = await APIDoctorSevice.getDetailDoctor(req.query.id)
+        return res.status(200).json(response)
+    } catch (e) {
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Err from server...'
+        })
+    }
+}
 
-module.exports = {handleGetDoctors, handleGetAllDoctor, handlePostInforDoctor}
+
+module.exports = {handleGetDoctors, handleGetAllDoctor, handlePostInforDoctor, handleGetDetailDoctor}

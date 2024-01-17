@@ -83,4 +83,41 @@ let saveDetailInforDoctor = (data)=>{
     })
 }
 
-module.exports = {getDoctors, getAllDoctor, saveDetailInforDoctor}
+let getDetailDoctor = (id)=>{
+    return new Promise(async(resolve, reject)=>{
+        try {
+            if(!id){
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing prameter'
+                })
+            } else{
+                let data = await db.User.findOne({
+                    where: {id: id},
+                    order: [['createdAt', 'DESC']],
+                    attributes: {exclude : ['password']},
+                    include:[
+                        {model: db.Allcode, as:'positionData', attributes: ['valueEn', 'valueVi']},
+                        {model: db.Markdown, attributes: ['description', 'contentHTML', 'contentMarkdown']}
+                    ],
+                    raw: true,
+                    nest: true
+                })
+                if(!data){
+                    resolve({
+                        errCode: 1,
+                        errMessage: 'Not found Doctor'
+                    })
+                }
+                resolve({
+                    errCode: 0,
+                    errMessage: data
+                })
+            }
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+module.exports = {getDoctors, getAllDoctor, saveDetailInforDoctor, getDetailDoctor}

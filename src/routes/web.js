@@ -22,12 +22,13 @@ let initWebRouter = (app)=>{
     router.get('/api/users', userController.handleGetUsers)       // read
     router.put('/api/edit-user', userController.handleUpdateUser)       // update
     router.delete('/api/delete-user/:id', userController.handleDeleteUser)       // delete
+    router.get('/api/allcode', userController.getAllCode)
         // --Doctor--
     router.get('/api/doctors', doctorController.handleGetDoctors)
     router.get('/api/all-doctors', doctorController.handleGetAllDoctor)
     router.post('/api/save-infor-doctor', doctorController.handlePostInforDoctor)
+    router.get('/api/get-detail-doctor-by-id', doctorController.handleGetDetailDoctor)
 
-    router.get('/api/allcode', userController.getAllCode)
     return app.use('/',router)
 }
 
