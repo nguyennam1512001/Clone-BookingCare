@@ -30,4 +30,57 @@ let getDoctors = (limit, pageNumber) => {
     })
 }
 
-module.exports = {getDoctors}
+
+let getAllDoctor = () => {
+    return new Promise(async(resolve, reject)=>{
+        try {
+            let userData = await db.User.findAndCountAll({
+                where: {roleId: 'R2'},
+                order: [['createdAt', 'DESC']],
+                attributes: {exclude : ['password','image']},
+                // include:[
+                //     {model: db.Allcode, as:'positionData', attributes: ['valueEn', 'valueVi']},
+                //     {model: db.Allcode, as:'genderData', attributes: ['valueEn', 'valueVi']}
+                // ],
+                raw: true,
+                nest: true
+            })
+            resolve({
+                errCode:0,
+                data: userData.rows,
+                total: userData.count,
+            })
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+
+let saveDetailInforDoctor = (data)=>{
+    return new Promise( async(resolve, reject)=>{
+        try {
+            if(!data.doctorId || !data.contentHTML || !data.contentMarkdown){
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing parameter'
+                })
+            } else{
+                await db.Markdown.create({
+                    contentHTML: data.contentHTML,
+                    contentMarkdown: data.contentMarkdown,
+                    description: data.description,
+                    doctorId: data.doctorId
+                })
+                resolve({
+                    errCode: 0,
+                    message: 'Save infor doctor success'
+                })
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+module.exports = {getDoctors, getAllDoctor, saveDetailInforDoctor}
