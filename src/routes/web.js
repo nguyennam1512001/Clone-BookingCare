@@ -28,6 +28,8 @@ let initWebRouter = (app)=>{
     router.get('/api/all-doctors', doctorController.handleGetAllDoctor)
     router.post('/api/save-infor-doctor', doctorController.handlePostInforDoctor)
     router.get('/api/get-detail-doctor-by-id', doctorController.handleGetDetailDoctor)
+    router.put('/api/edit-detail-doctor-by-id', doctorController.handleUpdateDetailDoctor)
+    router.get('/api/get-all-detail-doctor', doctorController.handleGetAllDetailDoctor)
 
     return app.use('/',router)
 }

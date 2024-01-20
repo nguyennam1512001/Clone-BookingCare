@@ -63,5 +63,29 @@ let handleGetDetailDoctor= async(req, res)=>{
     }
 }
 
+let handleGetAllDetailDoctor = async(req, res) =>{
+    try {
+        let res = await APIDoctorSevice.getAllDetailDoctor()
+        return res.status(200).json(res)
+    } catch (e) {
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server...'
+        })
+    }
+}
 
-module.exports = {handleGetDoctors, handleGetAllDoctor, handlePostInforDoctor, handleGetDetailDoctor}
+let handleUpdateDetailDoctor= async(req, res)=>{
+    try {
+        let response = await APIDoctorSevice.updateDetailDoctor(req.body)
+        return res.status(200).json(response)
+    } catch (e) {
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Err from server...'
+        })
+    }
+}
+
+module.exports = {handleGetDoctors, handleGetAllDoctor, handlePostInforDoctor, handleGetDetailDoctor, handleUpdateDetailDoctor, handleGetAllDetailDoctor}

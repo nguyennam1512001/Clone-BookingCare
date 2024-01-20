@@ -83,6 +83,40 @@ let saveDetailInforDoctor = (data)=>{
     })
 }
 
+let updateDetailDoctor = (data) =>{
+    return new Promise( async (resolve, reject)=>{
+        try {
+            if(!data.doctorId || !data.contentHTML || !data.contentMarkdown){
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing parameter'
+                })
+            } else{
+                
+                let markdown = await db.Markdown.findOne({ where: { doctorId: data.doctorId } });
+                if (markdown) {
+                    const userModelInstance = db.Markdown.build(markdown, { isNewRecord: false });
+                    userModelInstance.contentHTML= data.contentHTML,
+                    userModelInstance.contentMarkdown= data.contentMarkdown,
+                    userModelInstance.description= data.description.trim(),
+                    await userModelInstance.save();
+                    resolve({
+                        errCode: 0,
+                        message: 'Update infor doctor success'
+                    })
+                } else {
+                    resolve({
+                        errCode: 1,
+                        errMessage: 'Record does not exist'
+                    });
+                }
+            } 
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
 let getDetailDoctor = (id)=>{
     return new Promise(async(resolve, reject)=>{
         try {
@@ -100,18 +134,23 @@ let getDetailDoctor = (id)=>{
                         {model: db.Allcode, as:'positionData', attributes: ['valueEn', 'valueVi']},
                         {model: db.Markdown, attributes: ['description', 'contentHTML', 'contentMarkdown']}
                     ],
-                    raw: true,
+                    // raw: true, // => Sequelize Object
+                    raw: false, // => javaScript Object
                     nest: true
                 })
                 if(!data){
+                    data = {}
                     resolve({
                         errCode: 1,
                         errMessage: 'Not found Doctor'
                     })
                 }
+                if (data && data.image) {
+                    data.image = Buffer.from(data.image, 'base64').toString('latin1')
+                }
                 resolve({
                     errCode: 0,
-                    errMessage: data
+                    data: data
                 })
             }
         } catch (e) {
@@ -120,4 +159,19 @@ let getDetailDoctor = (id)=>{
     })
 }
 
-module.exports = {getDoctors, getAllDoctor, saveDetailInforDoctor, getDetailDoctor}
+let getAllDetailDoctor = () =>{
+    return new Promise(async(resolve, reject)=>{
+        try {
+            let data = await db.Markdown.findAll()
+            resolve({
+                errCode: 0,
+                message: data
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+
+module.exports = {getDoctors, getAllDoctor, saveDetailInforDoctor, getDetailDoctor, updateDetailDoctor, getAllDetailDoctor}
